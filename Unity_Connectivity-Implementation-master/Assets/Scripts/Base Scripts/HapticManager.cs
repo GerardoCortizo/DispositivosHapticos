@@ -108,12 +108,11 @@ public class HapticManager : MonoBehaviour {
                 {
                     myHIP[i].charge -= 0.001f;
                 }
+
                 hap2sph = new Vector3(sphereVec.x - hapticVec.x, sphereVec.y - hapticVec.y, sphereVec.z - hapticVec.z);
 
-                if (button0[i]) { attract = !attract; }
-
                 // Toggling vector direction
-                if (!attract)
+                if (myHIP[i].charge < 0)
                 {
                     hap2sph = hap2sph * -1;
                 }
