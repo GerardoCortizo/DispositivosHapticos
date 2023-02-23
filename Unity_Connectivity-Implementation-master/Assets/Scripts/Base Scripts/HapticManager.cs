@@ -118,7 +118,7 @@ public class HapticManager : MonoBehaviour {
             force_vec[1] = new Vector3(myHIP[1].position.x - myHIP[0].position.x, myHIP[1].position.y - myHIP[0].position.y, myHIP[1].position.z - myHIP[0].position.z);
 
             dist = Vector3.Distance(myHIP[0].position, myHIP[1].position);
-            force = k * myHIP[0].charge * myHIP[1].charge / (2 * dist * dist * 10000);
+            force = k * myHIP[0].charge * myHIP[1].charge / (2 * dist * dist * 100000);
             //Debug.Log("force: " + force.ToString());
             //Debug.Log("distance: " + dist.ToString());
             Debug.Log("Position 0: " + myHIP[0].position);
@@ -131,14 +131,13 @@ public class HapticManager : MonoBehaviour {
             Vector3 interaction_2 = force_vec[1];
             interaction_2 = force * interaction_2;
             
-            HapticPluginImport.SetHapticsForce(myHapticPlugin, 0, interaction_1);
-            HapticPluginImport.SetHapticsForce(myHapticPlugin, 1, interaction_2);
+            
+            if (dist > 1.5)
+            {
+                HapticPluginImport.SetHapticsForce(myHapticPlugin, 0, interaction_1);
+                HapticPluginImport.SetHapticsForce(myHapticPlugin, 1, interaction_2);
+            }
 
-
-
-
-            //// Drawing ray
-            //Debug.DrawRay(hapticVec, hap2sph, Color.green, 0.02f, false);
 
             HapticPluginImport.UpdateHapticDevices(myHapticPlugin, 0);
             HapticPluginImport.UpdateHapticDevices(myHapticPlugin, 1);

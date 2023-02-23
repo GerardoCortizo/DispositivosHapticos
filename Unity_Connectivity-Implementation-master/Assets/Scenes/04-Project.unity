@@ -232,7 +232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -744,7 +744,7 @@ PrefabInstance:
         type: 3}
       propertyPath: hapticCursors.Array.data[1]
       value: 
-      objectReference: {fileID: 1531621942}
+      objectReference: {fileID: 1681126937}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bae66461810c92b468919076784618ee, type: 3}
 --- !u!1 &1531621942 stripped
@@ -895,6 +895,12 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
   m_PVRTiledBaking: 0
+--- !u!1 &1681126937 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1936971021257508, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7935520}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1705485405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,7 +1025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
       propertyPath: m_LocalPosition.y
