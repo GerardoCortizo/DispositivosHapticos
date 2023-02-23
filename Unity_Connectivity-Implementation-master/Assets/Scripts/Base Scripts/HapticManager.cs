@@ -5,6 +5,10 @@ using System.Threading;
 using UnityEngine;
 
 public class HapticManager : MonoBehaviour {
+    private const float k = 9000000000; // N*m2/C2
+    public float dist;
+    public float force;
+
     // plugin import
     private IntPtr myHapticPlugin;
     // haptic thread
@@ -22,6 +26,7 @@ public class HapticManager : MonoBehaviour {
     private int hapticDevices;
     // position [m] of each haptic device
     private Vector3[] position = new Vector3[16];
+    private Vector3[] force_vec = new Vector3[2];
     private Quaternion[] orientation = new Quaternion[16];
     // state of haptic device buttons
     private bool[] button0 = new bool[16];
@@ -40,11 +45,11 @@ public class HapticManager : MonoBehaviour {
         if (hapticDevices > 0)
         {
             Debug.Log("Haptic Devices Found: " + HapticPluginImport.GetHapticsDetected(myHapticPlugin).ToString());
+            Debug.Log("Arreglo: " + hapticDevices.ToString());
             for (int i = 0; i < hapticDevices; i++)
             {
                 myHIP[i] = (HapticInteractionPoint)hapticCursors[i].GetComponent(typeof(HapticInteractionPoint));
             }
-            mySphere = (SphereManager)GetComponent(typeof(SphereManager));
         }
         else
         {
@@ -108,32 +113,35 @@ public class HapticManager : MonoBehaviour {
                 {
                     myHIP[i].charge -= 0.001f;
                 }
-
-                hap2sph = new Vector3(sphereVec.x - hapticVec.x, sphereVec.y - hapticVec.y, sphereVec.z - hapticVec.z);
-
-                // Toggling vector direction
-                if (myHIP[i].charge < 0)
-                {
-                    hap2sph = hap2sph * -1;
-                }
-
-                // Managing attraction or repulsion
-                Vector3 interaction = hap2sph;
-                interaction = myHIP[i].charge * interaction;
-                
-                if(Vector3.Distance(hapticVec, sphereVec) >= 0.0)
-                {
-                    HapticPluginImport.SetHapticsForce(myHapticPlugin, i, interaction);
-                }
-
-
-
-
-                // Drawing ray
-                Debug.DrawRay(hapticVec,hap2sph, Color.green, 0.02f, false);
-
-                HapticPluginImport.UpdateHapticDevices(myHapticPlugin, i);
             }
+            force_vec[0] = new Vector3(myHIP[0].position.x - myHIP[1].position.x, myHIP[0].position.y - myHIP[1].position.y, myHIP[0].position.z - myHIP[1].position.z);
+            force_vec[1] = new Vector3(myHIP[1].position.x - myHIP[0].position.x, myHIP[1].position.y - myHIP[0].position.y, myHIP[1].position.z - myHIP[0].position.z);
+
+            dist = Vector3.Distance(myHIP[0].position, myHIP[1].position);
+            force = k * myHIP[0].charge * myHIP[1].charge / (2 * dist * dist * 100000);
+            //Debug.Log("force: " + force.ToString());
+            //Debug.Log("distance: " + dist.ToString());
+            Debug.Log("Position 0: " + myHIP[0].position);
+            Debug.Log("Position 1: " + myHIP[1].position);
+
+            // Managing attraction or repulsion
+            Vector3 interaction_1 = force_vec[0];
+            interaction_1 = force * interaction_1;
+
+            Vector3 interaction_2 = force_vec[1];
+            interaction_2 = force * interaction_2;
+            
+            
+            if (dist > 1.5)
+            {
+                HapticPluginImport.SetHapticsForce(myHapticPlugin, 0, interaction_1);
+                HapticPluginImport.SetHapticsForce(myHapticPlugin, 1, interaction_2);
+            }
+
+
+            HapticPluginImport.UpdateHapticDevices(myHapticPlugin, 0);
+            HapticPluginImport.UpdateHapticDevices(myHapticPlugin, 1);
+
         }
     }
 
