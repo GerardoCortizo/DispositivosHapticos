@@ -75,7 +75,7 @@ public class HapticInteractionPoint : MonoBehaviour {
         rigidBody.mass = mass;
 
         // calculate distance to sphere
-        distHapticSphere = Vector3.Distance(position, mySphere.transform.position);
+        distHapticSphere = Vector3.Distance(position, mySphere.transform.position); //
         rotText.text = "Distance between charges: " + distHapticSphere.ToString();
 
         // calculating force
