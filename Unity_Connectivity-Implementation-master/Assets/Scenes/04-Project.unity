@@ -203,6 +203,118 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3267706}
   m_CullTransparentMesh: 1
+--- !u!1001 &7935520
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1093372452459578, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_Name
+      value: Q1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753564842037068, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_Name
+      value: Ideal Haptic Interaction Point (IHIP) 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1936971021257508, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_Name
+      value: Haptic Interaction Point (HIP) 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271902213527308, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.488
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23426451434633142, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c3fcb6bded112c4d98aa2a3059fbcc7, type: 2}
+    - target: {fileID: 54683353132523314, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114659084840302278, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: mass
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114659084840302278, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: charge
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114659084840302278, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: posText
+      value: 
+      objectReference: {fileID: 152048667}
+    - target: {fileID: 114659084840302278, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: rotText
+      value: 
+      objectReference: {fileID: 3267708}
+    - target: {fileID: 114659084840302278, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: distText
+      value: 
+      objectReference: {fileID: 1618856138}
+    - target: {fileID: 114659084840302278, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: mySphere
+      value: 
+      objectReference: {fileID: 492015803}
+    - target: {fileID: 114659084840302278, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: hapticDevice
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114659084840302278, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: hapticManager
+      value: 
+      objectReference: {fileID: 2113542309}
+    - target: {fileID: 135576994708602938, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
 --- !u!1 &147866050
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,7 +732,17 @@ PrefabInstance:
       objectReference: {fileID: 492015809}
     - target: {fileID: 114663783421957640, guid: bae66461810c92b468919076784618ee,
         type: 3}
+      propertyPath: hapticCursors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114663783421957640, guid: bae66461810c92b468919076784618ee,
+        type: 3}
       propertyPath: hapticCursors.Array.data[0]
+      value: 
+      objectReference: {fileID: 1531621942}
+    - target: {fileID: 114663783421957640, guid: bae66461810c92b468919076784618ee,
+        type: 3}
+      propertyPath: hapticCursors.Array.data[1]
       value: 
       objectReference: {fileID: 1531621942}
     m_RemovedComponents: []
@@ -883,6 +1005,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1093372452459578, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
+      propertyPath: m_Name
+      value: Q0
+      objectReference: {fileID: 0}
     - target: {fileID: 4271902213527308, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.488
@@ -893,7 +1019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4667494890156096, guid: 7634a190ea4fb2d4e807c56cf4d6fd3f, type: 3}
       propertyPath: m_LocalPosition.y
