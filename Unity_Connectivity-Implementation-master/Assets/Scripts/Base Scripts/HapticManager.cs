@@ -28,6 +28,7 @@ public class HapticManager : MonoBehaviour {
     private bool[] button1 = new bool[16];
     private bool[] button2 = new bool[16];
     private bool[] button3 = new bool[16];
+    private bool attract = true;
 
     // Use this for initialization
     void Start () {
@@ -94,20 +95,42 @@ public class HapticManager : MonoBehaviour {
                 button2[i] = HapticPluginImport.GetHapticsButtons(myHapticPlugin, i, 3);
                 button3[i] = HapticPluginImport.GetHapticsButtons(myHapticPlugin, i, 4);
 
-                if (button0[i])
-                {
-                    myHIP[0].charge = myHIP[0].charge * -1;
-                }
-
                 // calculate distance to sphere
                 Vector3 hapticVec = myHIP[i].position;
                 Vector3 sphereVec = myHIP[i].spherePosition;
+                Vector3 hap2sph;
 
-                Vector3 hap2sph = new Vector3(sphereVec.x - hapticVec.x, sphereVec.y - hapticVec.y, sphereVec.z - hapticVec.z);
+                if (button3[i])
+                {
+                    myHIP[i].charge += 0.001f;
+                }
+                if (button1[i])
+                {
+                    myHIP[i].charge -= 0.001f;
+                }
+
+                hap2sph = new Vector3(sphereVec.x - hapticVec.x, sphereVec.y - hapticVec.y, sphereVec.z - hapticVec.z);
+
+                // Toggling vector direction
+                if (myHIP[i].charge < 0)
+                {
+                    hap2sph = hap2sph * -1;
+                }
+
                 // Managing attraction or repulsion
                 Vector3 interaction = hap2sph;
                 interaction = myHIP[i].charge * interaction;
-                HapticPluginImport.SetHapticsForce(myHapticPlugin, i, interaction);
+                
+                if(Vector3.Distance(hapticVec, sphereVec) >= 0.0)
+                {
+                    HapticPluginImport.SetHapticsForce(myHapticPlugin, i, interaction);
+                }
+
+
+
+
+                // Drawing ray
+                Debug.DrawRay(hapticVec,hap2sph, Color.green, 0.02f, false);
 
                 HapticPluginImport.UpdateHapticDevices(myHapticPlugin, i);
             }

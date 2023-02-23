@@ -39,7 +39,7 @@ public class HapticInteractionPoint : MonoBehaviour {
     // Called when the script instance is being loaded
     void Awake() {
         position = new Vector3(0, 0, 0);
-        spherePosition = new Vector3(2, 0, 2);
+        spherePosition = new Vector3(0, 0, 4.5f);
         button0 = false;
         button1 = false;
         button2 = false;
@@ -62,8 +62,8 @@ public class HapticInteractionPoint : MonoBehaviour {
 
         // get haptic device variables
         position = myHapticManager.GetPosition(hapticDevice);
-        spherePosition = new Vector3(2, 0, 2);
-        posText.text = "Position: " + position.ToString();
+        spherePosition = new Vector3(0, 0, 4.5f);
+        posText.text = "Charge: " + charge.ToString() + " C";
         orientation = myHapticManager.GetOrientation(hapticDevice);
         button0 = myHapticManager.GetButtonState(hapticDevice, 0);
         button1 = myHapticManager.GetButtonState(hapticDevice, 1);
@@ -76,11 +76,11 @@ public class HapticInteractionPoint : MonoBehaviour {
 
         // calculate distance to sphere
         distHapticSphere = Vector3.Distance(position, mySphere.transform.position);
-        rotText.text = "Distance: " + distHapticSphere.ToString();
+        rotText.text = "Distance between charges: " + distHapticSphere.ToString();
 
         // calculating force
         force = k * (charge * mySphere.GetComponent<Rigidbody>().mass) / (distHapticSphere * distHapticSphere);
-        distText.text = "Force: " + force.ToString();
+        distText.text = "Force: " + force.ToString() + " N";
 
         // update positions of HIP and IHIP
         IHIP.transform.position = position;
@@ -89,25 +89,13 @@ public class HapticInteractionPoint : MonoBehaviour {
         transform.rotation = orientation;
 
         // change material color
-        if (button0)
+        if (charge < 0)
         {
             material.color = Color.red;
         }
-        else if (button1)
-        {
-            material.color = Color.blue;
-        }
-        else if (button2)
-        {
-            material.color = Color.green;
-        }
-        else if (button3)
-        {
-            material.color = Color.yellow;
-        }
         else
         {
-            material.color = Color.white;
+            material.color = Color.blue;
         }
     }
 }
