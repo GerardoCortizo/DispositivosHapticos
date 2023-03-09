@@ -18,7 +18,6 @@ public class HapticManager : MonoBehaviour {
     // haptic devices in the scene
     public GameObject[] hapticCursors;
     HapticInteractionPoint[] myHIP = new HapticInteractionPoint[16];
-    public SphereManager mySphere;
 
     // haptic workspace
     public float workspace = 100.0f;
@@ -102,7 +101,6 @@ public class HapticManager : MonoBehaviour {
 
                 // calculate distance to sphere
                 Vector3 hapticVec = myHIP[i].position;
-                Vector3 sphereVec = myHIP[i].spherePosition;
                 Vector3 hap2sph;
 
                 if (button3[i])
@@ -132,7 +130,7 @@ public class HapticManager : MonoBehaviour {
             interaction_2 = force * interaction_2;
             
             
-            if (dist > 1.5)
+            if (dist > 150)
             {
                 HapticPluginImport.SetHapticsForce(myHapticPlugin, 0, interaction_1);
                 HapticPluginImport.SetHapticsForce(myHapticPlugin, 1, interaction_2);
