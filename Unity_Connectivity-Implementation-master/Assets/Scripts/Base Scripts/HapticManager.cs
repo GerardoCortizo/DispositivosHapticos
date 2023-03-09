@@ -4,10 +4,22 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+using TMPro;
+
 public class HapticManager : MonoBehaviour {
     private const float k = 9000000000; // N*m2/C2
     public float dist;
     public float force;
+
+    private Transform start;
+    private Transform end;
+    public float maxWidth;
+    public float minWidth;
+
+    public LineRenderer lineRenderer;
+    Vector3[] newPositions = new Vector3[2];
+
+    public TextMeshProUGUI FText;
 
     // plugin import
     private IntPtr myHapticPlugin;
@@ -26,6 +38,7 @@ public class HapticManager : MonoBehaviour {
     // position [m] of each haptic device
     private Vector3[] position = new Vector3[16];
     private Vector3[] force_vec = new Vector3[2];
+    private Vector3[] unit_vec = new Vector3[2];
     private Quaternion[] orientation = new Quaternion[16];
     // state of haptic device buttons
     private bool[] button0 = new bool[16];
@@ -36,6 +49,8 @@ public class HapticManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        //lineRenderer = GetComponent<LineRenderer>();
+        Debug.Log("Line Renderer: " + lineRenderer);
         // inizialization of Haptic Plugin
         Debug.Log("Starting Haptic Devices");
         // check if haptic devices libraries were loaded
@@ -67,6 +82,29 @@ public class HapticManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         // Exit application
+        FText.text = Math.Round(force, 2).ToString() + " N";
+        //start = myHIP[0].position;
+        //end = myHIP[1].position;
+        //float distance = Vector3.Distance(myHIP[0].position, myHIP[1].position);
+        //float width = Mathf.Lerp(maxWidth, minWidth, distance);
+        //lineRenderer.startWidth = width;
+        //lineRenderer.endWidth = width;
+
+
+
+        force_vec[0] = new Vector3(myHIP[0].position.x - myHIP[1].position.x, myHIP[0].position.y - myHIP[1].position.y, myHIP[0].position.z - myHIP[1].position.z);
+        force_vec[1] = new Vector3(myHIP[1].position.x - myHIP[0].position.x, myHIP[1].position.y - myHIP[0].position.y, myHIP[1].position.z - myHIP[0].position.z);
+
+        Vector3 mH0P = myHIP[1].position;
+        Vector3 mH1P = myHIP[0].position;
+        float normal0 = Mathf.Pow(((Mathf.Pow(mH0P.x, 2) + Mathf.Pow(mH0P.y, 2) + Mathf.Pow(mH0P.z, 2))), 0.5f);
+        unit_vec[0] = new Vector3((mH0P.x / normal0), (mH0P.y / normal0), (mH0P.z / normal0)); 
+
+        newPositions[0] = myHIP[0].position; // First point at (0, 0, 0)
+        //newPositions[1] = unit_vec[0]; // Second point at (1, 1, 1)
+        newPositions[1] = myHIP[1].position;
+
+        lineRenderer.SetPositions(newPositions);
         if (Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
@@ -103,24 +141,30 @@ public class HapticManager : MonoBehaviour {
                 Vector3 hapticVec = myHIP[i].position;
                 Vector3 hap2sph;
 
-                if (button3[i])
+                if (button3[i] && myHIP[i].charge < 5)
                 {
                     myHIP[i].charge += 0.001f;
                 }
-                if (button1[i])
+                if (button1[i] && myHIP[i].charge > -5)
                 {
                     myHIP[i].charge -= 0.001f;
                 }
             }
-            force_vec[0] = new Vector3(myHIP[0].position.x - myHIP[1].position.x, myHIP[0].position.y - myHIP[1].position.y, myHIP[0].position.z - myHIP[1].position.z);
-            force_vec[1] = new Vector3(myHIP[1].position.x - myHIP[0].position.x, myHIP[1].position.y - myHIP[0].position.y, myHIP[1].position.z - myHIP[0].position.z);
+            
 
             dist = Vector3.Distance(myHIP[0].position, myHIP[1].position);
             force = k * myHIP[0].charge * myHIP[1].charge / (2 * dist * dist * 100000);
+
+            // Set the new positions of the first and second vertex points
+            
+
+            // Update the positions of the vertex points in the LineRenderer
+            
+
             //Debug.Log("force: " + force.ToString());
             //Debug.Log("distance: " + dist.ToString());
-            Debug.Log("Position 0: " + myHIP[0].position);
-            Debug.Log("Position 1: " + myHIP[1].position);
+            //Debug.Log("Position 0: " + myHIP[0].position);
+            //Debug.Log("Position 1: " + myHIP[1].position);
 
             // Managing attraction or repulsion
             Vector3 interaction_1 = force_vec[0];
