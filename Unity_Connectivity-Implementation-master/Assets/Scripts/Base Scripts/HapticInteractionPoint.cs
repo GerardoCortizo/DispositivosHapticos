@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class HapticInteractionPoint : MonoBehaviour {
 
     private const float k = 9000000000; // N*m2/C2
 
-    public GameObject mySphere;
+    // public GameObject mySphere;
     public float distHapticSphere;
     public float force;
 
     // establish Haptic Manager and IHIP objects
     public GameObject hapticManager;
     public GameObject IHIP;
-    public Text posText;
-    public Text rotText;
-    public Text distText;
+    public TextMeshProUGUI QText;
 
     // get haptic device information from the haptic manager
     private HapticManager myHapticManager;
@@ -25,7 +25,6 @@ public class HapticInteractionPoint : MonoBehaviour {
     public int hapticDevice;
     // haptic device variables
     public Vector3 position;
-    public Vector3 spherePosition;
     private Quaternion orientation;
     private bool button0;
     private bool button1;
@@ -39,7 +38,6 @@ public class HapticInteractionPoint : MonoBehaviour {
     // Called when the script instance is being loaded
     void Awake() {
         position = new Vector3(0, 0, 0);
-        spherePosition = new Vector3(0, 0, 4.5f);
         button0 = false;
         button1 = false;
         button2 = false;
@@ -61,9 +59,8 @@ public class HapticInteractionPoint : MonoBehaviour {
         hapticDevice = (hapticDevice > -1 && hapticDevice < hapticsFound) ? hapticDevice : hapticsFound - 1;
 
         // get haptic device variables
-        position = myHapticManager.GetPosition(hapticDevice);
-        spherePosition = new Vector3(0, 0, 4.5f);
-        posText.text = "Charge: " + charge.ToString() + " C";
+        position = myHapticManager.GetPosition(hapticDevice) * 100;
+        QText.text = Math.Round(charge, 2).ToString() + " μC";
         orientation = myHapticManager.GetOrientation(hapticDevice);
         button0 = myHapticManager.GetButtonState(hapticDevice, 0);
         button1 = myHapticManager.GetButtonState(hapticDevice, 1);
@@ -73,14 +70,6 @@ public class HapticInteractionPoint : MonoBehaviour {
         // update haptic device mass
         mass = (mass > 0) ? mass : 0.0f;
         rigidBody.mass = mass;
-
-        // calculate distance to sphere
-        distHapticSphere = Vector3.Distance(position, mySphere.transform.position); //
-        rotText.text = "Distance between charges: " + distHapticSphere.ToString();
-
-        // calculating force
-        force = k * (charge * mySphere.GetComponent<Rigidbody>().mass) / (distHapticSphere * distHapticSphere);
-        distText.text = "Force: " + force.ToString() + " N";
 
         // update positions of HIP and IHIP
         IHIP.transform.position = position;
