@@ -9,9 +9,14 @@ public class HapticInteractionPoint : MonoBehaviour {
 
     private const float k = 9000000000; // N*m2/C2
 
+    private bool pass;
+
     // public GameObject mySphere;
     public float distHapticSphere;
     public float force;
+
+    public Transform arrow0;
+    public Transform arrow1;
 
     // establish Haptic Manager and IHIP objects
     public GameObject hapticManager;
@@ -77,7 +82,6 @@ public class HapticInteractionPoint : MonoBehaviour {
         transform.position = position;
         transform.rotation = orientation;
 
-        // change material color
         if (charge < 0)
         {
             material.color = Color.red;
