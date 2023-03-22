@@ -82,7 +82,19 @@ public class HapticManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         // Exit application
-        FText.text = Math.Round(force, 2).ToString() + " N";
+        FText.text = "Fuerza: " + Math.Round(force, 2).ToString() + " N";
+
+        // change material color
+        if ((myHIP[0].charge < 0 && myHIP[1].charge > 0) || (myHIP[0].charge > 0 && myHIP[1].charge < 0)) // Atraen
+        {
+            myHIP[0].arrow0.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
+            myHIP[0].arrow1.Rotate(0.0f, 0.0f, 0.0f, Space.Self);
+        }
+        else
+        {
+            myHIP[0].arrow0.Rotate(0.0f, 0.0f, 0.0f, Space.Self);
+            myHIP[0].arrow1.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
+        }
         //start = myHIP[0].position;
         //end = myHIP[1].position;
         //float distance = Vector3.Distance(myHIP[0].position, myHIP[1].position);
