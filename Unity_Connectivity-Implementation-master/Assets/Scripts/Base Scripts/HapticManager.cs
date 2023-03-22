@@ -19,6 +19,11 @@ public class HapticManager : MonoBehaviour {
     public LineRenderer lineRenderer;
     Vector3[] newPositions = new Vector3[2];
 
+    public GameObject arrow_0;
+    public GameObject arrow_1;
+    private Transform objTransform_arrow0;
+    private Transform objTransform_arrow1;
+
     public TextMeshProUGUI FText;
 
     // plugin import
@@ -49,6 +54,21 @@ public class HapticManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        arrow_0 = GameObject.Find("Arrow0");
+        arrow_1 = GameObject.Find("Arrow1");
+
+        objTransform_arrow0 = arrow_0.transform;
+        objTransform_arrow1 = arrow_1.transform;
+
+        /////////////////
+        ///
+        Vector3 newScale0 = new Vector3(Math.Abs(objTransform_arrow0.localScale.x) * -1.0f, objTransform_arrow0.localScale.y, objTransform_arrow0.localScale.z);
+        Vector3 newScale1 = new Vector3(Math.Abs(objTransform_arrow1.localScale.x) * -1.0f, objTransform_arrow1.localScale.y, objTransform_arrow1.localScale.z);
+
+        objTransform_arrow0.localScale = newScale0;
+        objTransform_arrow1.localScale = newScale1;
+        /////////////////
+
         //lineRenderer = GetComponent<LineRenderer>();
         Debug.Log("Line Renderer: " + lineRenderer);
         // inizialization of Haptic Plugin
@@ -95,6 +115,29 @@ public class HapticManager : MonoBehaviour {
             myHIP[0].arrow0.Rotate(0.0f, 0.0f, 0.0f, Space.Self);
             myHIP[0].arrow1.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
         }
+
+
+        if (myHIP[0].charge * myHIP[1].charge > 0)
+        {
+            Vector3 newScale0 = new Vector3(Math.Abs(objTransform_arrow0.localScale.x) * -1.0f, objTransform_arrow0.localScale.y, objTransform_arrow0.localScale.z);
+            Vector3 newScale1 = new Vector3(Math.Abs(objTransform_arrow1.localScale.x) * -1.0f, objTransform_arrow1.localScale.y, objTransform_arrow1.localScale.z);
+
+            objTransform_arrow0.localScale = newScale0;
+            objTransform_arrow1.localScale = newScale1;
+
+        }
+        else
+        {
+            Vector3 newScale0 = new Vector3(Math.Abs(objTransform_arrow0.localScale.x), objTransform_arrow0.localScale.y, objTransform_arrow0.localScale.z);
+            Vector3 newScale1 = new Vector3(Math.Abs(objTransform_arrow1.localScale.x), objTransform_arrow1.localScale.y, objTransform_arrow1.localScale.z);
+
+            objTransform_arrow0.localScale = newScale0;
+            objTransform_arrow1.localScale = newScale1;
+        }
+
+       
+
+
         //start = myHIP[0].position;
         //end = myHIP[1].position;
         //float distance = Vector3.Distance(myHIP[0].position, myHIP[1].position);
