@@ -50,30 +50,15 @@ public class HapticManager : MonoBehaviour {
     private bool[] button1 = new bool[16];
     private bool[] button2 = new bool[16];
     private bool[] button3 = new bool[16];
-    private bool attract = true;
 
     // Use this for initialization
     void Start () {
         arrow_0 = GameObject.Find("Arrow0");
         arrow_1 = GameObject.Find("Arrow1");
-
         objTransform_arrow0 = arrow_0.transform;
         objTransform_arrow1 = arrow_1.transform;
 
-        /////////////////
-        ///
-        Vector3 newScale0 = new Vector3(Math.Abs(objTransform_arrow0.localScale.x) * -1.0f, objTransform_arrow0.localScale.y, objTransform_arrow0.localScale.z);
-        Vector3 newScale1 = new Vector3(Math.Abs(objTransform_arrow1.localScale.x) * -1.0f, objTransform_arrow1.localScale.y, objTransform_arrow1.localScale.z);
-
-        objTransform_arrow0.localScale = newScale0;
-        objTransform_arrow1.localScale = newScale1;
-        /////////////////
-
-        //lineRenderer = GetComponent<LineRenderer>();
-        Debug.Log("Line Renderer: " + lineRenderer);
-        // inizialization of Haptic Plugin
         Debug.Log("Starting Haptic Devices");
-        // check if haptic devices libraries were loaded
         myHapticPlugin = HapticPluginImport.CreateHapticDevices();
         hapticDevices = HapticPluginImport.GetHapticsDetected(myHapticPlugin);
         if (hapticDevices > 0)
@@ -90,62 +75,32 @@ public class HapticManager : MonoBehaviour {
             Debug.Log("Haptic Devices cannot be found");
             Application.Quit();
         }
-        // setting the haptic thread
         hapticThreadIsRunning = true;
         myHapticThread = new Thread(HapticThread);
-        // set priority of haptic thread
         myHapticThread.Priority = System.Threading.ThreadPriority.Highest;
-        // starting the haptic thread
         myHapticThread.Start();
     }
 
     // Update is called once per frame
     void Update () {
-        // Exit application
         FText.text = "Fuerza: " + Math.Round(force, 2).ToString() + " N";
 
-        // change material color
-        if ((myHIP[0].charge < 0 && myHIP[1].charge > 0) || (myHIP[0].charge > 0 && myHIP[1].charge < 0)) // Atraen
+        float scalar = 1.0f;
+        if (myHIP[0].charge * myHIP[1].charge < 0)
         {
-            myHIP[0].arrow0.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
-            myHIP[0].arrow1.Rotate(0.0f, 0.0f, 0.0f, Space.Self);
-        }
-        else
-        {
-            myHIP[0].arrow0.Rotate(0.0f, 0.0f, 0.0f, Space.Self);
-            myHIP[0].arrow1.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
-        }
-
-
-        if (myHIP[0].charge * myHIP[1].charge > 0)
-        {
-            Vector3 newScale0 = new Vector3(Math.Abs(objTransform_arrow0.localScale.x) * -1.0f, objTransform_arrow0.localScale.y, objTransform_arrow0.localScale.z);
-            Vector3 newScale1 = new Vector3(Math.Abs(objTransform_arrow1.localScale.x) * -1.0f, objTransform_arrow1.localScale.y, objTransform_arrow1.localScale.z);
-
-            objTransform_arrow0.localScale = newScale0;
-            objTransform_arrow1.localScale = newScale1;
+            scalar = -1.0f;
 
         }
         else
         {
-            Vector3 newScale0 = new Vector3(Math.Abs(objTransform_arrow0.localScale.x), objTransform_arrow0.localScale.y, objTransform_arrow0.localScale.z);
-            Vector3 newScale1 = new Vector3(Math.Abs(objTransform_arrow1.localScale.x), objTransform_arrow1.localScale.y, objTransform_arrow1.localScale.z);
-
-            objTransform_arrow0.localScale = newScale0;
-            objTransform_arrow1.localScale = newScale1;
+            scalar = 1.0f;
         }
 
-       
+        Vector3 newScale0 = new Vector3(Math.Abs(objTransform_arrow0.localScale.x) * scalar, objTransform_arrow0.localScale.y, objTransform_arrow0.localScale.z);
+        Vector3 newScale1 = new Vector3(Math.Abs(objTransform_arrow1.localScale.x) * scalar, objTransform_arrow1.localScale.y, objTransform_arrow1.localScale.z);
 
-
-        //start = myHIP[0].position;
-        //end = myHIP[1].position;
-        //float distance = Vector3.Distance(myHIP[0].position, myHIP[1].position);
-        //float width = Mathf.Lerp(maxWidth, minWidth, distance);
-        //lineRenderer.startWidth = width;
-        //lineRenderer.endWidth = width;
-
-
+        objTransform_arrow0.localScale = newScale0;
+        objTransform_arrow1.localScale = newScale1;
 
         force_vec[0] = new Vector3(myHIP[0].position.x - myHIP[1].position.x, myHIP[0].position.y - myHIP[1].position.y, myHIP[0].position.z - myHIP[1].position.z);
         force_vec[1] = new Vector3(myHIP[1].position.x - myHIP[0].position.x, myHIP[1].position.y - myHIP[0].position.y, myHIP[1].position.z - myHIP[0].position.z);
@@ -194,13 +149,12 @@ public class HapticManager : MonoBehaviour {
 
                 // calculate distance to sphere
                 Vector3 hapticVec = myHIP[i].position;
-                Vector3 hap2sph;
 
-                if (button3[i] && myHIP[i].charge < 5)
+                if (button3[i] && myHIP[i].charge < 3)
                 {
                     myHIP[i].charge += 0.001f;
                 }
-                if (button1[i] && myHIP[i].charge > -5)
+                if (button1[i] && myHIP[i].charge > -3)
                 {
                     myHIP[i].charge -= 0.001f;
                 }
@@ -208,20 +162,12 @@ public class HapticManager : MonoBehaviour {
             
 
             dist = Vector3.Distance(myHIP[0].position, myHIP[1].position);
-            force = k * myHIP[0].charge * myHIP[1].charge / (2 * dist * dist * 100000);
+            force = k * myHIP[0].charge * myHIP[1].charge / (2 * dist * dist * 1000000);
+            if (dist < 250)
+            {
+                force = 0;
+            }
 
-            // Set the new positions of the first and second vertex points
-            
-
-            // Update the positions of the vertex points in the LineRenderer
-            
-
-            //Debug.Log("force: " + force.ToString());
-            //Debug.Log("distance: " + dist.ToString());
-            //Debug.Log("Position 0: " + myHIP[0].position);
-            //Debug.Log("Position 1: " + myHIP[1].position);
-
-            // Managing attraction or repulsion
             Vector3 interaction_1 = force_vec[0];
             interaction_1 = force * interaction_1;
 
