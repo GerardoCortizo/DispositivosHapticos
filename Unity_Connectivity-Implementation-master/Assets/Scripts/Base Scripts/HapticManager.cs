@@ -165,7 +165,7 @@ public class HapticManager : MonoBehaviour {
             force = k * myHIP[0].charge * myHIP[1].charge / (2 * dist * dist * 1000000);
             if (dist < 250)
             {
-                force = 0;
+                force = -force;
             }
 
             Vector3 interaction_1 = force_vec[0];
@@ -173,13 +173,21 @@ public class HapticManager : MonoBehaviour {
 
             Vector3 interaction_2 = force_vec[1];
             interaction_2 = force * interaction_2;
-            
-            
-            if (dist > 150)
+
+            if (dist < 250)
             {
-                HapticPluginImport.SetHapticsForce(myHapticPlugin, 0, interaction_1);
-                HapticPluginImport.SetHapticsForce(myHapticPlugin, 1, interaction_2);
+                force = 0;
             }
+
+            interaction_1 = force_vec[0];
+            interaction_1 = force * interaction_1;
+
+            interaction_2 = force_vec[1];
+            interaction_2 = force * interaction_2;
+
+
+            HapticPluginImport.SetHapticsForce(myHapticPlugin, 0, interaction_1);
+            HapticPluginImport.SetHapticsForce(myHapticPlugin, 1, interaction_2);
 
 
             HapticPluginImport.UpdateHapticDevices(myHapticPlugin, 0);
